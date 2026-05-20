@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EngNook | 英语小屋</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        :root {
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --accent: #5dade2;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .app-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 26px;
+            margin: 0 0 5px 0;
+            color: #1a252f;
+        }
+        .quote-box {
+            background: #f8faf9;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border-left: 4px solid var(--accent);
+            text-align: left;
+            min-height: 90px;
+        }
+        .en { font-size: 16px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; color: #2c3e50; }
+        .zh { font-size: 13px; color: #7f8c8d; line-height: 1.4; }
+        .btn {
+            background: var(--text);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn:active { background: var(--accent); }
+    </style>
+</head>
+<body>
+    <div class="app-card">
+        <h1>EngNook ✨</h1>
+        <p style="color: #95a5a6; font-size: 13px; margin: 0;">我的专属英语 PWA 空间</p>
+        
+        <div class="quote-box">
+            <div class="en">"The limits of my language mean the limits of my world."</div>
+            <div class="zh">“语言的边界，即是世界的边界。”</div>
+        </div>
+
+        <button class="btn" onclick="nextQuote()">建立今日语感</button>
+    </div>
+
+    <script>
+        // 1. 注册 PWA 核心 Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker 注册成功完毕'))
+                .catch(err => console.log('Service Worker 注册失败:', err));
+        }
+
+        // 2. 互动金句库
+        const quotes = [
+            {en: "The limits of my language mean the limits of my world.", zh: "语言的边界，即是世界的边界。"},
+            {en: "To have another language is to possess a second soul.", zh: "掌握另一种语言，就拥有了第二个灵魂。"},
+            {en: "Action speaks louder than words.", zh: "行动胜于言语。"},
+            {en: " there is no royal road to learning. ", zh: "求学无坦途。"}
+        ];
+        let index = 0;
+        function nextQuote() {
+            index = (index + 1) % quotes.length;
+            document.querySelector('.en').innerText = quotes[index].en;
+            document.querySelector('.zh').innerText = quotes[index].zh;
+        }
+    </script>
+</body>
+</html>
